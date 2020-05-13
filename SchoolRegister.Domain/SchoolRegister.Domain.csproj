@@ -8,4 +8,8 @@
     <ProjectReference Include="..\SchoolRegister.DAL\SchoolRegister.DAL.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>
