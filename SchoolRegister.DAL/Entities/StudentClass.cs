@@ -7,8 +7,8 @@ namespace SchoolRegister.DAL.Entities
 {
 	public class StudentClass
 	{
-		public byte StudentClassId { get; set; }
-		[Required]
+		public byte StudentClassId { get; set; }		
 		public string Level { get; set; }
+		public int Teacher { get; set; }
 	}
 }

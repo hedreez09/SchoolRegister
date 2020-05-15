@@ -10,16 +10,13 @@ namespace SchoolRegister.DAL.Entities
 		[Key]
 		public int TeacherId { get; set; }
 
-		[Required]
 		public string FirstName { get; set; }
 
-		[Required]
 		public string LastName { get; set; }
 
-		[Required]
-		public byte GenderId { get; set; }
-		public Gender Gender { get; set; }
-		[Required]
+		public string Gender { get; set; }
+		
 		public byte StudentClassId { get; set; }
+
 	}
 }

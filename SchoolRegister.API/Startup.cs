@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SchoolRegister.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
+using SchoolRegister.Domain.Repository;
+using SchoolRegister.Domain.Interface;
 
 namespace SchoolRegister.API
 {
@@ -22,6 +24,8 @@ namespace SchoolRegister.API
 		{
 			services.AddDbContext<DatabaseContext>(options =>
 			options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+			services.AddScoped<IStudentRepository, StudentRepository>();
 
 			services.AddControllers();
 		}

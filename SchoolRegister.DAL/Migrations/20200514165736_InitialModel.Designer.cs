@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolRegister.DAL.DataContext;
 
 namespace SchoolRegister.DAL.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    partial class DatabaseContextModelSnapshot : ModelSnapshot
+    [Migration("20200514165736_InitialModel")]
+    partial class InitialModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace SchoolRegister.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("DatePresent")
-                        .HasColumnType("datetime2");
 
                     b.Property<bool>("Present")
                         .HasColumnType("bit");
@@ -62,9 +61,6 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Level")
-                        .HasColumnType("int");
-
                     b.Property<string>("Sport")
                         .HasColumnType("nvarchar(max)");
 
@@ -79,39 +75,35 @@ namespace SchoolRegister.DAL.Migrations
                             DateOfBirth = new DateTimeOffset(new DateTime(2000, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             FirstName = "Berry",
                             Gender = "Female",
-                            LastName = "Krish",
-                            Level = 0,
+                            LastName = "Griffin Beak Eldritch",
                             Sport = "Football"
                         },
                         new
                         {
                             Id = 2,
-                            DateOfBirth = new DateTimeOffset(new DateTime(2011, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(1650, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             FirstName = "Beil",
                             Gender = "Female",
-                            LastName = "Fish",
-                            Level = 0,
-                            Sport = "Gymnastic"
+                            LastName = "Eldritch",
+                            Sport = "Football"
                         },
                         new
                         {
                             Id = 3,
-                            DateOfBirth = new DateTimeOffset(new DateTime(2016, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(1650, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             FirstName = "Berry",
                             Gender = "Female",
-                            LastName = "Salman",
-                            Level = 0,
+                            LastName = "Griffin",
                             Sport = "Football"
                         },
                         new
                         {
                             Id = 4,
-                            DateOfBirth = new DateTimeOffset(new DateTime(2013, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
+                            DateOfBirth = new DateTimeOffset(new DateTime(1650, 7, 23, 0, 0, 0, 0, DateTimeKind.Unspecified), new TimeSpan(0, 1, 0, 0, 0)),
                             FirstName = "Elder",
                             Gender = "male",
                             LastName = "Paul Beak Eldritch",
-                            Level = 0,
-                            Sport = "Tennis"
+                            Sport = "Football"
                         },
                         new
                         {
@@ -120,7 +112,6 @@ namespace SchoolRegister.DAL.Migrations
                             FirstName = "Beak",
                             Gender = "male",
                             LastName = "Griffin",
-                            Level = 0,
                             Sport = "Football"
                         },
                         new
@@ -130,8 +121,7 @@ namespace SchoolRegister.DAL.Migrations
                             FirstName = "Salami",
                             Gender = "Female",
                             LastName = "Griffin",
-                            Level = 0,
-                            Sport = "Gymnastic"
+                            Sport = "Football"
                         },
                         new
                         {
@@ -140,8 +130,7 @@ namespace SchoolRegister.DAL.Migrations
                             FirstName = "Berry",
                             Gender = "Female",
                             LastName = "Griffin Beak Eldritch",
-                            Level = 0,
-                            Sport = "Tenni"
+                            Sport = "Football"
                         });
                 });
 
@@ -153,9 +142,6 @@ namespace SchoolRegister.DAL.Migrations
                     b.Property<string>("Level")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Teacher")
-                        .HasColumnType("int");
-
                     b.HasKey("StudentClassId");
 
                     b.ToTable("StudentClasses");
@@ -164,20 +150,17 @@ namespace SchoolRegister.DAL.Migrations
                         new
                         {
                             StudentClassId = (byte)1,
-                            Level = "Basic_1",
-                            Teacher = 1
+                            Level = "Basic_1"
                         },
                         new
                         {
                             StudentClassId = (byte)2,
-                            Level = "Basic_2",
-                            Teacher = 2
+                            Level = "Basic_2"
                         },
                         new
                         {
                             StudentClassId = (byte)3,
-                            Level = "Basic_3",
-                            Teacher = 3
+                            Level = "Basic_3"
                         });
                 });
 

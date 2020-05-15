@@ -9,6 +9,7 @@ namespace SchoolRegister.DAL.Entities
 		public int Id { get; set; }
 		public int StudentId { get; set; }
 		public int TeacherId { get; set; }
+		public DateTime DatePresent { get; set; }
 		public bool Present { get; set; }
 	}
 }

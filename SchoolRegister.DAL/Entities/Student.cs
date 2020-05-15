@@ -11,21 +11,18 @@ namespace SchoolRegister.DAL.Entities
 	{
 		[Key]
 		public int Id { get; set; }
-		[Required]
+	
 		public string FirstName { get; set; }
-		[Required]
-		public string LastName { get; set; }
-		[Required]
-		public DateTimeOffset DateOfBirth { get; set; }
-		[Required]
-		public byte GenderId { get; set; }
-		public Gender Gender { get; set; }
-		[Required]
-		public byte SportId { get; set; }
 		
-		public Sport Sport { get; set; }
-		[Required]
-		public byte StudentClassId { get; set; }
-		public StudentClass	 StudentCalss { get; set; }
+		public string LastName { get; set; }
+		
+		public DateTimeOffset DateOfBirth { get; set; }
+		
+		public string Gender { get; set; }
+		
+		public string Sport { get; set; }
+		public int Level { get; set; }
+
+
 	}
 }
