@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using SchoolRegister.Domain.Interface;
 using SchoolRegister.Domain.ViewModel;
@@ -14,16 +15,23 @@ namespace SchoolRegister.API.Controllers
 	{
 		private readonly IStudentRepository context;
 
-		public StudentController(IStudentRepository _context )
+		public StudentController(IStudentRepository _context)
 		{
 			context = _context;
 		}
+
+	
+
 		// GET: api/<controller>
 		[HttpGet]
-		public IEnumerable<StudentViewModel> Get()
+		public ActionResult<IEnumerable<StudentViewModel>> Get()
 		{
-			
-			return context.GetStudents(); 
+			var stds = context.GetStudents();
+			if (stds.Count() < 1)
+			{
+				return NotFound("No Student found");
+			}
+			return Ok(context.GetStudents());
 		}
 
 		//// GET: api/<controller>
@@ -35,10 +43,64 @@ namespace SchoolRegister.API.Controllers
 		//}
 		// GET api/<controller>/5
 		[HttpGet("{id}")]
-		public StudentViewModel Get(int id)
+		public ActionResult<StudentViewModel> Get(int id)
 		{
 			var std = context.GetStudent(id);
-			return std;
+			if (std == null)
+			{
+				return NotFound($"Student with ID {id} not found");
+			}
+			return Ok(std);
+		}
+
+		[HttpPost]
+		public async Task<ActionResult> PostAsync([FromBody]StudentViewModelSave student)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+
+			bool x = await context.AddStudent(student);
+			if (x)
+				return Ok("Student data saved successfully");
+			else
+				return BadRequest("Something went wrong, data not saved");
+		}
+		[HttpPut]
+		public async Task<ActionResult> PutAsync([FromBody]StudentViewModelSave student)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			if (student.Id < 1)
+			{
+				return BadRequest("Invalid Student ID");
+			}
+			bool x = await context.UpdateStudent(student);
+			if (x)
+				return Ok("Student data updated successfully");
+			else
+				return BadRequest("Something went wrong, data not updated, maybe student not found");
+		}
+
+		[HttpDelete]
+		public async Task<ActionResult> DeleteAsync([FromBody]StudentViewModelSave student)
+		{
+			if (!ModelState.IsValid)
+			{
+				return BadRequest(ModelState);
+			}
+			if (student.Id < 1)
+			{
+				return BadRequest("Invalid Student ID");
+			}
+			bool x = await context.DeleteStudent(student.Id);
+			if (x)
+				return Ok("Student data deleted successfully");
+			else
+				return BadRequest("Something went wrong, data not deleted, maybe student not found");
 		}
 	}
 }

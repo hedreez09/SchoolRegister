@@ -21,7 +21,7 @@ namespace SchoolRegister.DAL.Entities
 		public string Gender { get; set; }
 		
 		public string Sport { get; set; }
-		public int Level { get; set; }
+		public string Level { get; set; }
 
 
 	}

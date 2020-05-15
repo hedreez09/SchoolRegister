@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Interface\ITeacherRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\SchoolRegister.DAL\SchoolRegister.DAL.csproj" />
   </ItemGroup>
 

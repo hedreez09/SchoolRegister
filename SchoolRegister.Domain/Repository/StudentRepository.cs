@@ -4,21 +4,25 @@ using SchoolRegister.Domain.Interface;
 using SchoolRegister.Domain.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO.Pipes;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Transactions;
 
 namespace SchoolRegister.Domain.Repository
 {
-	public class StudentRepository : IStudentRepository
+	public class StudentRepository : IStudentRepository, IDisposable
 
 	{
 		private readonly DatabaseContext _context;
 
 		public StudentRepository(DatabaseContext context)
 		{
-			_context = context ?? throw new ArgumentNullException(nameof(context));
+			_context = context;//?? throw new ArgumentNullException(nameof(context));
 		}
 
-		public async void AddStudent(StudentViewModelSave student)
+		
+		public async Task<bool> AddStudent(StudentViewModelSave student)
 		{
 			if (student == null)
 			{
@@ -35,7 +39,16 @@ namespace SchoolRegister.Domain.Repository
 				Sport = student.Sport
 			};
 			_context.Students.Add(Std);
-			await _context.SaveChangesAsync();
+			try
+			{
+				int x = await _context.SaveChangesAsync();
+				return x > 0;
+			}
+			catch
+			{
+				//log excemption
+				return false;
+			}
 		}
 
 		public void DeleteRegister(Register register)
@@ -43,14 +56,17 @@ namespace SchoolRegister.Domain.Repository
 			_context.Register.Remove(register);
 		}
 
-		public async void DeleteStudent(int student)
+		public async Task<bool> DeleteStudent(int student)
 		{
+			bool Answer = false;
 			var std = _context.Students.FirstOrDefault(c => c.Id == student);
 			if (std != null)
 			{
 				_context.Students.Remove(std);
-				await _context.SaveChangesAsync();
+				int x = await _context.SaveChangesAsync();
+				Answer = x > 0;
 			}
+			return Answer;
 		}
 
 		public StudentViewModel GetStudent(int studentId)
@@ -63,14 +79,14 @@ namespace SchoolRegister.Domain.Repository
 						Gender = S.Gender,
 						FullName = S.LastName + " " + S.FirstName,
 						Id = S.Id,
-						LevelName = _context.StudentClasses.FirstOrDefault(x => x.StudentClassId == S.Level).Level,
+						LevelName = S.Level,
 						Sport = S.Sport,
 						Age = DateTime.Now.Year - S.DateOfBirth.Year
 					}).FirstOrDefault();
 
 		}
 
-		public IEnumerable<StudentViewModel> GetStudents(int level)
+		public IEnumerable<StudentViewModel> GetStudents(string level)
 		{
 
 			return (from S in _context.Students
@@ -81,7 +97,7 @@ namespace SchoolRegister.Domain.Repository
 						Gender = S.Gender,
 						FullName = S.LastName + " " + S.FirstName,
 						Id = S.Id,
-						LevelName = _context.StudentClasses.FirstOrDefault(x => x.StudentClassId == S.Level).Level,
+						LevelName = S.Level,
 						Sport = S.Sport,
 						Age = DateTime.Now.Year - S.DateOfBirth.Year
 					}).ToList();
@@ -97,7 +113,7 @@ namespace SchoolRegister.Domain.Repository
 						Gender = S.Gender,
 						FullName = S.LastName + " " + S.FirstName,
 						Id = S.Id,
-						LevelName = _context.StudentClasses.FirstOrDefault(x => x.StudentClassId == S.Level).Level,
+						LevelName = S.Level,
 						Sport = S.Sport,
 						Age = DateTime.Now.Year - S.DateOfBirth.Year
 					}).ToList();
@@ -108,25 +124,23 @@ namespace SchoolRegister.Domain.Repository
 
 		}
 
-		public async void UpdateStudent(StudentViewModelSave student)
+		public async Task<bool> UpdateStudent(StudentViewModelSave student)
 		{
-
-			if (student == null)
-			{
-				throw new ArgumentNullException(nameof(student));
-			}
+			bool Answer = false;
 
 			var std = _context.Students.FirstOrDefault(x => x.Id == student.Id);
 			if (std != null)
 			{
 				std.FirstName = student.FirstName;
-				std.FirstName = student.LastName;
+				std.LastName = student.LastName;
 				std.DateOfBirth = student.DateOfBirth;
 				std.Gender = student.Gender;
 				std.Sport = student.Sport;
 				std.Level = student.Level;
-				await _context.SaveChangesAsync();
+				int x = await _context.SaveChangesAsync();
+				Answer = x > 0;
 			}
+			return Answer;
 		}
 
 
@@ -139,6 +153,19 @@ namespace SchoolRegister.Domain.Repository
 				_context.Register.Add(register);
 				await _context.SaveChangesAsync();
 			}
+		}
+
+		public void Dispose()
+		{
+			if (_context != null)
+				_context.Dispose();
+		}
+
+		public double AgeAverage()
+		{
+			return Convert.ToDouble((from std in _context.Students
+									let Age = DateTime.Now.Year - std.DateOfBirth.Year
+									select new { Age }).Average(x=>x.Age));
 		}
 	}
 }

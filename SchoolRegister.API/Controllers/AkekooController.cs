@@ -1,15 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using SchoolRegister.Domain.Interface;
+using SchoolRegister.Domain.ViewModel;
 
 namespace SchoolRegister.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AkekooController : ControllerBase
+    public class AverageAgeController : ControllerBase
     {
+        private readonly IStudentRepository context;
+
+        public AverageAgeController(IStudentRepository _context)
+        {
+            context = _context;
+        }
+        public ActionResult<AvergareAgeViewModel> Get()
+        {
+            var age = context.AgeAverage();
+            AvergareAgeViewModel x = new AvergareAgeViewModel
+            {
+                AverageAge = age
+            };
+            return Ok(x);
+        }
     }
 }
