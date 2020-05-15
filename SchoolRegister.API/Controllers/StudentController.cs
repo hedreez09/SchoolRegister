@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,11 @@ namespace SchoolRegister.API.Controllers
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
+			}
+			var yr = DateTime.Now.Year - student.DateOfBirth.Year;
+			if(!(yr <=5 && yr >= 20))
+			{
+				return BadRequest("Date of birth is not within the range limit. Age range is between 5 and 20.");
 			}
 
 			bool x = await context.AddStudent(student);
