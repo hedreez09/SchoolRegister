@@ -9,7 +9,8 @@ using SchoolRegister.Domain.ViewModel;
 namespace SchoolRegister.API.Controllers
 {
 	[Route("api/[controller]")]
-	public class StudentController : Controller
+	[ApiController]
+	public class StudentController : ControllerBase
 	{
 		private readonly IStudentRepository context;
 
@@ -19,51 +20,25 @@ namespace SchoolRegister.API.Controllers
 		}
 		// GET: api/<controller>
 		[HttpGet]
-		public IEnumerable<StudentViewModel> AllStudents()
+		public IEnumerable<StudentViewModel> Get()
 		{
 			
 			return context.GetStudents(); 
 		}
 
-		// GET: api/<controller>
-		[HttpGet]
-		public ActionResult<IEnumerable<StudentViewModel>> AllStudentsByLevel(int level)
-		{
-			var stds = context.GetStudents(level);
-			if (stds.Count()<1)
-			{
-				return NotFound();
-			}
-			return Ok(stds);
-		}
+		//// GET: api/<controller>
+		//[HttpGet]
+		//public IEnumerable<StudentViewModel> AllStudentsByLevel(int level)
+		//{
+		//	var stds = context.GetStudents(level);
+		//	return stds;
+		//}
 		// GET api/<controller>/5
 		[HttpGet("{id}")]
-		public ActionResult<StudentViewModel> Student(int id)
+		public StudentViewModel Get(int id)
 		{
 			var std = context.GetStudent(id);
-			if (std == null)
-			{
-				return NotFound();
-			}
-			return Ok(std);
-		}
-
-		// POST api/<controller>
-		[HttpPost]
-		public void Post([FromBody]string value)
-		{
-		}
-
-		// PUT api/<controller>/5
-		[HttpPut("{id}")]
-		public void Put(int id, [FromBody]string value)
-		{
-		}
-
-		// DELETE api/<controller>/5
-		[HttpDelete("{id}")]
-		public void Delete(int id)
-		{
+			return std;
 		}
 	}
 }
