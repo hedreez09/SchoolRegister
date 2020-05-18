@@ -16,7 +16,7 @@ namespace SchoolRegister.Domain.ViewModel
 		public string LastName { get; set; }
 
 		[Required(ErrorMessage ="Invalid Date of Birth")]
-		[DataType(DataType.Date)]
+		[DataType(DataType.Date)]   
 		public DateTimeOffset DateOfBirth { get; set; }
 
 		[Required(ErrorMessage ="Invalid Gender")]
