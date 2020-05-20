@@ -12,11 +12,8 @@ namespace SchoolRegister.DAL.DataContext
 		  : base(options)
 		{
 		}
-
 		public DbSet<Student> Students { get; set; }
 		public DbSet<Register> Register { get; set; }
-		
-	
 	}
 
 

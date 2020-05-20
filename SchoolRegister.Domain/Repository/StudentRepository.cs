@@ -15,6 +15,7 @@ namespace SchoolRegister.Domain.Repository
 
 	{
 		private readonly DatabaseContext _context;
+		//private IStudentRepository @object;
 
 		public StudentRepository(DatabaseContext context)
 		{
@@ -22,6 +23,7 @@ namespace SchoolRegister.Domain.Repository
 		}
 
 		
+
 		public async Task<bool> AddStudent(StudentViewModelSave student)
 		{
 			if (student == null)

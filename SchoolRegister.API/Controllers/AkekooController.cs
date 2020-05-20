@@ -17,11 +17,11 @@ namespace SchoolRegister.API.Controllers
         public ActionResult<AvergareAgeViewModel> Get()
         {
             var age = context.AgeAverage();
-            AvergareAgeViewModel x = new AvergareAgeViewModel
+            AvergareAgeViewModel averageAge = new AvergareAgeViewModel
             {
                 AverageAge = age
             };
-            return Ok(x);
+            return Ok(averageAge);
         }
     }
 }
