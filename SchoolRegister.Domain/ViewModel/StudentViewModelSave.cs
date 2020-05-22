@@ -5,6 +5,10 @@ namespace SchoolRegister.Domain.ViewModel
 {
 	public class StudentViewModelSave
 	{
+		public StudentViewModelSave()
+		{
+
+		}
 		public int Id { get; set; }
 
 		[Required(ErrorMessage ="Invalid First Name")]

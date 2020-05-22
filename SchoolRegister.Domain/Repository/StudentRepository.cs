@@ -15,7 +15,7 @@ namespace SchoolRegister.Domain.Repository
 
 	{
 		private readonly DatabaseContext _context;
-		//private IStudentRepository @object;
+		private IStudentRepository @object;
 
 		public StudentRepository(DatabaseContext context)
 		{
@@ -35,8 +35,8 @@ namespace SchoolRegister.Domain.Repository
 			{
 				DateOfBirth = student.DateOfBirth,
 				FirstName = student.FirstName,
-				Gender = student.Gender,
 				LastName = student.LastName,
+				Gender = student.Gender,
 				Level = student.Level,
 				Sport = student.Sport
 			};
@@ -144,9 +144,6 @@ namespace SchoolRegister.Domain.Repository
 			}
 			return Answer;
 		}
-
-
-
 
 		public async void MarkAttendance(Register register)
 		{

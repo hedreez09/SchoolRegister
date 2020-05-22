@@ -62,7 +62,7 @@ namespace SchoolRegister.API.Controllers
 				return BadRequest(ModelState);
 			}
 			var yr = DateTime.Now.Year - student.DateOfBirth.Year;
-			if(!(yr <=5 && yr >= 20))
+			if(!(yr >=5 && yr <= 20))
 			{
 				return BadRequest("Date of birth is not within the range limit. Age range is between 5 and 20.");
 			}
