@@ -7,6 +7,8 @@ using SchoolRegister.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
 using SchoolRegister.Domain.Repository;
 using SchoolRegister.Domain.Interface;
+using AutoMapper;
+using System;
 
 namespace SchoolRegister.API
 {
@@ -22,6 +24,7 @@ namespace SchoolRegister.API
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 			services.AddDbContext<DatabaseContext>(options =>
 			options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 

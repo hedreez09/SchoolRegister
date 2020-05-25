@@ -1,4 +1,5 @@
-﻿using SchoolRegister.DAL.DataContext;
+﻿using AutoMapper;
+using SchoolRegister.DAL.DataContext;
 using SchoolRegister.DAL.Entities;
 using SchoolRegister.Domain.Interface;
 using SchoolRegister.Domain.ViewModel;
@@ -15,16 +16,18 @@ namespace SchoolRegister.Domain.Repository
 
 	{
 		private readonly DatabaseContext _context;
-		private IStudentRepository @object;
+		private readonly IMapper _mapper;
+		//private IStudentRepository @object;
 
-		public StudentRepository(DatabaseContext context)
+		public StudentRepository(DatabaseContext context, IMapper mapper)
 		{
 			_context = context;//?? throw new ArgumentNullException(nameof(context));
+			_mapper = mapper;
 		}
 
 		
 
-		public async Task<bool> AddStudent(StudentViewModelSave student)
+		public async Task<bool> AddStudent(StudenCreationViewModel student)
 		{
 			if (student == null)
 			{
@@ -73,19 +76,21 @@ namespace SchoolRegister.Domain.Repository
 
 		public StudentViewModel GetStudent(int studentId)
 		{
-			return (from S in _context.Students
-					where S.Id == studentId
-					select new StudentViewModel
-					{
-						DateOfBirth = S.DateOfBirth,
-						Gender = S.Gender,
-						FullName = S.LastName + " " + S.FirstName,
-						Id = S.Id,
-						LevelName = S.Level,
-						Sport = S.Sport,
-						Age = DateTime.Now.Year - S.DateOfBirth.Year
-					}).FirstOrDefault();
+			var student = _context
+			//return (from S in _context.Students
+			//		where S.Id == studentId
+			//		select new StudentViewModel
+			//		{
+			//			DateOfBirth = S.DateOfBirth,
+			//			Gender = S.Gender,
+			//			FullName = S.LastName + " " + S.FirstName,
+			//			Id = S.Id,
+			//			LevelName = S.Level,
+			//			Sport = S.Sport,
+			//			Age = DateTime.Now.Year - S.DateOfBirth.Year
+			//		}).FirstOrDefault();
 
+			return _mapper.Map<StudentViewModel>(student);
 		}
 
 		public IEnumerable<StudentViewModel> GetStudents(string level)
@@ -126,7 +131,7 @@ namespace SchoolRegister.Domain.Repository
 
 		}
 
-		public async Task<bool> UpdateStudent(StudentViewModelSave student)
+		public async Task<bool> UpdateStudent(StudenCreationViewModel student)
 		{
 			bool Answer = false;
 

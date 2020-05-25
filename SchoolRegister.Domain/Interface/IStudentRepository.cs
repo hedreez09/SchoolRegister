@@ -12,8 +12,8 @@ namespace SchoolRegister.Domain.Interface
 		IEnumerable<StudentViewModel> GetStudents(string levelid);
 		IEnumerable<StudentViewModel> GetStudents();
 		StudentViewModel GetStudent(int studentId);
-		Task<bool> AddStudent(StudentViewModelSave student);
-		Task<bool> UpdateStudent(StudentViewModelSave student);
+		Task<bool> AddStudent(StudenCreationViewModel student);
+		Task<bool> UpdateStudent(StudenCreationViewModel student);
 		Task<bool> DeleteStudent(int student);
 		void MarkAttendance(Register register);
 		void UpdateRegister(Register register);
