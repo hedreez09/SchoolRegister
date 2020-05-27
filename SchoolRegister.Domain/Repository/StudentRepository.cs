@@ -1,60 +1,49 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using SchoolRegister.DAL.DataContext;
 using SchoolRegister.DAL.Entities;
-using SchoolRegister.Domain.Interface;
 using SchoolRegister.Domain.ViewModel;
 using System;
 using System.Collections.Generic;
-using System.IO.Pipes;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Transactions;
 
 namespace SchoolRegister.Domain.Repository
 {
-	public class StudentRepository : IStudentRepository, IDisposable
+	public class StudentRepository : DbContext, IDisposable
 
 	{
 		private readonly DatabaseContext _context;
-		private readonly IMapper _mapper;
+		 
 		//private IStudentRepository @object;
 
-		public StudentRepository(DatabaseContext context, IMapper mapper)
+		public StudentRepository(DatabaseContext context)
 		{
 			_context = context;//?? throw new ArgumentNullException(nameof(context));
-			_mapper = mapper;
+			
 		}
 
 		
-
-		public async Task<bool> AddStudent(StudenCreationViewModel student)
+		public async Task<bool> AddStudent(Student student)
 		{
 			if (student == null)
 			{
 				throw new ArgumentNullException(nameof(student));
 			}
 
-			var Std = new Student
-			{
-				DateOfBirth = student.DateOfBirth,
-				FirstName = student.FirstName,
-				LastName = student.LastName,
-				Gender = student.Gender,
-				Level = student.Level,
-				Sport = student.Sport
-			};
-			_context.Students.Add(Std);
+			_context.Students.Add(student);
 			try
 			{
 				int x = await _context.SaveChangesAsync();
-				return x > 0;
+			return x > 0;
 			}
 			catch
 			{
 				//log excemption
 				return false;
 			}
-		}
+
+
+			}
 
 		public void DeleteRegister(Register register)
 		{
@@ -74,9 +63,13 @@ namespace SchoolRegister.Domain.Repository
 			return Answer;
 		}
 
-		public StudentViewModel GetStudent(int studentId)
+		public Student GetStudent(int studentId)
 		{
-			var student = _context
+			if(studentId < 0)
+			{
+				throw new ArgumentNullException(nameof(studentId));
+			}
+			return _context.Students.FirstOrDefault(a => a.Id == studentId)
 			//return (from S in _context.Students
 			//		where S.Id == studentId
 			//		select new StudentViewModel
@@ -89,13 +82,11 @@ namespace SchoolRegister.Domain.Repository
 			//			Sport = S.Sport,
 			//			Age = DateTime.Now.Year - S.DateOfBirth.Year
 			//		}).FirstOrDefault();
-
-			return _mapper.Map<StudentViewModel>(student);
 		}
 
 		public IEnumerable<StudentViewModel> GetStudents(string level)
 		{
-
+			
 			return (from S in _context.Students
 					where S.Level == level
 					select new StudentViewModel
@@ -110,20 +101,21 @@ namespace SchoolRegister.Domain.Repository
 					}).ToList();
 		}
 
-		public IEnumerable<StudentViewModel> GetStudents()
+		public IEnumerable<Student> GetStudents()
 		{
 
-			return (from S in _context.Students
-					select new StudentViewModel
-					{
-						DateOfBirth = S.DateOfBirth,
-						Gender = S.Gender,
-						FullName = S.LastName + " " + S.FirstName,
-						Id = S.Id,
-						LevelName = S.Level,
-						Sport = S.Sport,
-						Age = DateTime.Now.Year - S.DateOfBirth.Year
-					}).ToList();
+			return _context.Students.ToList<Student>();
+			//return (from S in _context.Students
+			//		select new StudentViewModel
+			//		{
+			//			DateOfBirth = S.DateOfBirth,
+			//			Gender = S.Gender,
+			//			FullName = S.LastName + " " + S.FirstName,
+			//			Id = S.Id,
+			//			LevelName = S.Level,
+			//			Sport = S.Sport,
+			//			Age = DateTime.Now.Year - S.DateOfBirth.Year
+			//		}).ToList();
 		}
 
 		public void UpdateRegister(Register register)

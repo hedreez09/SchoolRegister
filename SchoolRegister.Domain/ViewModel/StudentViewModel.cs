@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolRegister.DAL.Entities;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace SchoolRegister.Domain.ViewModel
@@ -28,5 +29,15 @@ namespace SchoolRegister.Domain.ViewModel
 
 		[Required(ErrorMessage ="Invalid level")]
 		public string LevelName { get; set; }
+
+		public static implicit operator  StudentViewModel(Student student)
+		{
+			return new StudentViewModel
+			{
+				Age = student.Age,
+				DateOfBirth = student.DateOfBirth,
+				FullName = $"{student.FirstName} {student.LastName}"
+			};
+		}
 	}
 }
