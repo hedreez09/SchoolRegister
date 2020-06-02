@@ -7,6 +7,7 @@
   <ItemGroup>
     <Compile Remove="Entities\StudentClass.cs" />
     <Compile Remove="Entities\Teacher.cs" />
+    <Compile Remove="Interface\ITeacherRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

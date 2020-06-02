@@ -7,7 +7,7 @@ namespace SchoolRegister.Domain.ViewModel
 {
 	public class StudenCreationViewModel
 	{
-		public int Id { get; set; }
+		//public int Id { get; set; }
 		[Required(ErrorMessage = "Invalid First Name")]
 		[Display(Name = "First Name")]
 		public string FirstName { get; set; }

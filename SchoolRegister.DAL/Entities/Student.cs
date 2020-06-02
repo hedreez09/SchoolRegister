@@ -23,6 +23,6 @@ namespace SchoolRegister.DAL.Entities
 		public string Sport { get; set; }
 		public string Level { get; set; }
 
-
-	}
+        //public bool IsDeleted { get; set; }
+    }
 }

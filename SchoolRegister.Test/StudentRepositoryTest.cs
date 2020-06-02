@@ -1,17 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Moq;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using SchoolRegister.DAL.DataContext;
-using SchoolRegister.DAL.Entities;
-using SchoolRegister.Domain.Interface;
-using SchoolRegister.Domain.Repository;
-using SchoolRegister.Domain.ViewModel;
-using SchoolRegister.Test.MockData;
-using System.Threading.Tasks;
 
 namespace SchoolRegister.Test
 {
-	[TestFixture]
+    [TestFixture]
 	public class StudentRepositoryTest
 	{
 		private readonly DatabaseContext _data;

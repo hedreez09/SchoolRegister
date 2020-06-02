@@ -5,14 +5,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using SchoolRegister.DAL.DataContext;
 using Microsoft.EntityFrameworkCore;
-using SchoolRegister.Domain.Repository;
-using SchoolRegister.Domain.Interface;
 using AutoMapper;
 using System;
+using SchoolRegister.Domain.IService;
 
 namespace SchoolRegister.API
 {
-	public class Startup
+    public class Startup
 	{
 		public Startup(IConfiguration configuration)
 		{
@@ -28,7 +27,7 @@ namespace SchoolRegister.API
 			services.AddDbContext<DatabaseContext>(options =>
 			options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-			services.AddScoped<IStudentRepository, StudentRepository>();
+			services.AddScoped<IStudentService, IStudentService > ();
 
 			services.AddControllers();
 		}
@@ -36,11 +35,10 @@ namespace SchoolRegister.API
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
-			if (env.IsDevelopment())
-			{
+            if (env.IsDevelopment())
+            {
 				app.UseDeveloperExceptionPage();
 			}
-
 			app.UseRouting();
 
 			app.UseAuthorization();
