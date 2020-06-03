@@ -14,14 +14,14 @@ namespace SchoolRegister.API.Controllers
         {
             context = _context;
         }
-        //public ActionResult<AvergareAgeViewModel> Get()
-        //{
-        //    var age = context.AgeAverage();
-        //    AvergareAgeViewModel averageAge = new AvergareAgeViewModel
-        //    {
-        //        AverageAge = age
-        //    };
-        //    return Ok(averageAge);
-        //}
+        public ActionResult<AvergareAgeViewModel> Get()
+        {
+            var age = context.AgeAverage();
+            AvergareAgeViewModel averageAge = new AvergareAgeViewModel
+            {
+                AverageAge = age
+            };
+            return Ok(averageAge);
+        }
     }
 }

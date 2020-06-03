@@ -21,7 +21,7 @@ namespace SchoolRegister.DAL.Repository
 
         public double Average(Func<TEntity, double> filter)
         {
-            throw new NotImplementedException();
+            return dbSet.Average(filter);
         }
 
         
@@ -84,17 +84,20 @@ namespace SchoolRegister.DAL.Repository
             dbSet.Remove(entity);
         }
 
-        public void Update(TEntity entity, dynamic secondObject = null)
+        public void Update(TEntity entity/*, dynamic secondObject = null*/)
         {
-            if(secondObject != null)
-            {
-                //this set the new value to the new updated value
-                dbSet.Update(entity).CurrentValues.SetValues(secondObject);
-            }
-            else
-            {
-                dbSet.Update(entity);
-            }
+            dbSet.Update(entity);
+
+            //if (secondObject != null)
+            //{
+
+            //    //this set the new value to the new updated value
+            //    dbSet.Update(entity).CurrentValues.SetValues(secondObject);
+            //}
+            //else
+            //{
+            //    dbSet.Update(entity);
+            //}
         }
 
         //	public double AgeAverage()

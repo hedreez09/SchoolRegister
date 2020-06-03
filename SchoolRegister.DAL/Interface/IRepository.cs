@@ -11,7 +11,7 @@ namespace SchoolRegister.DAL.Interface
 
         void Insert(TEntity entity);
         void InsertRange(List<TEntity> entities);
-        void Update(TEntity entity,dynamic secondObject = null);
+        void Update(TEntity entity);
         void Remove(TEntity entity);
         int Commit();
         Task<int> CommitAsync();

@@ -67,22 +67,33 @@ namespace SchoolRegister.Domain
 		}
 		
 
-		public async Task<bool> UpdateStudent(int studentId, StudenCreationViewModel student)
+		public async Task<Student> UpdateStudent(StudenCreationViewModel student)
         {
-			bool ans = false;
-			var std = _studentRepository.GetFirstOrDefault(s => s.Id == studentId);
+			var result = new Student();
+			//bool ans = false;
+			var std = _studentRepository.GetFirstOrDefault(s => s.Id == student.Id);
 			if(std == null)
             {
-				throw new ArgumentNullException(nameof(studentId));
+				throw new ArgumentNullException(nameof(student.Id));
 			}
 
+			std.DateOfBirth = student.DateOfBirth;
+			std.FirstName = (string.IsNullOrEmpty(student.FirstName)) ? std.FirstName : student.FirstName;
+			std.LastName = (string.IsNullOrEmpty(student.LastName)) ? std.LastName : student.LastName;
+			std.Level = student.Level;
+			std.Sport = student.Sport;
+			std.Gender = student.Gender;
 			//var pupil = _mapper.Map<StudenCreationViewModel, Student>(student);
-			_studentRepository.Update(std,student);
-
+			_studentRepository.Update(std);
 			
-			int stud = await _studentRepository.CommitAsync();
-			ans = stud > 0;
-			return ans ;
+			var count = await _studentRepository.CommitAsync();
+
+			//At this point if the changes had been made the this condition will be executed 
+			if(count > 0)
+            {
+				result = std;
+            }
+			return result;
 		}
 
 		public async Task<bool> DeleteStudent(int studentId)
@@ -136,10 +147,9 @@ namespace SchoolRegister.Domain
             throw new NotImplementedException();
         }
 
-  //      public double AgeAverage()
-		//{  
-		//	var age = _studentRepository.Average(age);
-		//	return 
-		//}
+        public int AgeAverage()
+        {
+			return Convert.ToInt32(_studentRepository.Average(x => DateTime.Now.Year - x.DateOfBirth.Year));
+		}
     }
 }

@@ -13,13 +13,13 @@ namespace SchoolRegister.Domain.IService
 		IEnumerable<StudentViewModel> GetStudents();
 		StudentViewModel GetStudent(int studentId);
 		Task<bool> AddStudent(StudenCreationViewModel student);
-		Task<bool> UpdateStudent(int studentId, StudenCreationViewModel student);
+		Task<Student> UpdateStudent(StudenCreationViewModel student);
 
 		Task<bool> DeleteStudent(int student);
 		void MarkAttendance(Register register);
 		void UpdateRegister(Register register);
 		void DeleteRegister(Register register);
-		//double AgeAverage();
+		int AgeAverage();
 
 	}
 }

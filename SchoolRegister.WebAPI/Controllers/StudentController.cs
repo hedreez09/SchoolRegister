@@ -79,32 +79,31 @@ namespace SchoolRegister.API.Controllers
 			{
 				return BadRequest(ModelState);
 			}
-			if (id < 1)
-			{
-				if(student == null)
-					return BadRequest(" Student doest not exist");
-				return BadRequest("Only and existing student can be update");
-			}
-			
-			bool pupil = await context.UpdateStudent(id,student);
-			if (pupil)
-				return Ok(pupil);
-			else
-				return BadRequest("Something went wrong, data not updated, maybe student not found");
+
+			if (student == null)
+				return BadRequest(" Student doest not exist");
+
+			student.Id = id;
+
+			var pupil = await context.UpdateStudent(student);
+			return Ok(pupil);
+			//else
+			//	return BadRequest("Something went wrong, data not updated, maybe student not found");
 		}
 
 		[HttpDelete("{id}")]
-		public async Task<ActionResult> DeleteAsync([FromBody]StudentViewModel student)
+		public async Task<ActionResult> DeleteAsync(int id)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			if (student.Id < 1)
+			//if (!ModelState.IsValid)
+			//{
+			//	return BadRequest(ModelState);
+			//}
+			if (id < 1)
 			{
 				return BadRequest("Invalid Student ID");
 			}
-			bool pupil = await context.DeleteStudent(student.Id);
+			
+			bool pupil = await context.DeleteStudent(id);
 			if (pupil)
 				return Ok("Student data deleted successfully");
 			else
