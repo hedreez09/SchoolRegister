@@ -14,6 +14,8 @@ namespace SchoolRegister.API.Controllers
         {
             context = _context;
         }
+
+        [HttpGet]
         public ActionResult<AvergareAgeViewModel> Get()
         {
             var age = context.AgeAverage();

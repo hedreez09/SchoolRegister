@@ -13,7 +13,7 @@ namespace SchoolRegister.Domain.IService
 		IEnumerable<StudentViewModel> GetStudents();
 		StudentViewModel GetStudent(int studentId);
 		Task<bool> AddStudent(StudenCreationViewModel student);
-		Task<Student> UpdateStudent(StudenCreationViewModel student);
+		Task<Student> UpdateStudent(StudenCreationViewModel student, int id);
 
 		Task<bool> DeleteStudent(int student);
 		void MarkAttendance(Register register);

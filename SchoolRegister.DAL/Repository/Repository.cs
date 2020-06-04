@@ -54,11 +54,6 @@ namespace SchoolRegister.DAL.Repository
             return dbSet.FirstOrDefault(filter);
         }
 
-        //public Task<TEntity> GetFirstOrDefault(Expression<Func<TEntity, bool>> filter)
-        //{
-        //    return dbSet.FirstOrDefaultAsync(filter);
-        //}
-
         public TEntity GetSingleOrDefault(Func<TEntity, bool> filter)
         {
             return dbSet.SingleOrDefault(filter);
@@ -84,29 +79,10 @@ namespace SchoolRegister.DAL.Repository
             dbSet.Remove(entity);
         }
 
-        public void Update(TEntity entity/*, dynamic secondObject = null*/)
+        public void Update(TEntity entity)
         {
             dbSet.Update(entity);
-
-            //if (secondObject != null)
-            //{
-
-            //    //this set the new value to the new updated value
-            //    dbSet.Update(entity).CurrentValues.SetValues(secondObject);
-            //}
-            //else
-            //{
-            //    dbSet.Update(entity);
-            //}
         }
-
-        //	public double AgeAverage()
-        //	{
-        //		return Convert.ToDouble((from std in _context.Students
-        //								let Age = DateTime.Now.Year - std.DateOfBirth.Year
-        //								select new { Age }).Average(x=>x.Age));
-        //	}
-        //}
     }
 
 }

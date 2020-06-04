@@ -67,14 +67,14 @@ namespace SchoolRegister.Domain
 		}
 		
 
-		public async Task<Student> UpdateStudent(StudenCreationViewModel student)
+		public async Task<Student> UpdateStudent(StudenCreationViewModel student, int id)
         {
 			var result = new Student();
 			//bool ans = false;
-			var std = _studentRepository.GetFirstOrDefault(s => s.Id == student.Id);
+			var std = _studentRepository.GetFirstOrDefault(s => s.Id == id);
 			if(std == null)
             {
-				throw new ArgumentNullException(nameof(student.Id));
+				throw new ArgumentNullException(nameof(id));
 			}
 
 			std.DateOfBirth = student.DateOfBirth;
@@ -139,7 +139,7 @@ namespace SchoolRegister.Domain
 
         public void UpdateRegister(Register register)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(); 
         }
 
         public void DeleteRegister(Register register)

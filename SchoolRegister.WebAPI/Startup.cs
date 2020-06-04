@@ -12,6 +12,7 @@ using SchoolRegister.DAL.Interface;
 using SchoolRegister.DAL.Repository;
 using SchoolRegister.Domain;
 using SchoolRegister.Domain.IService;
+using Microsoft.OpenApi.Models;
 
 namespace SchoolRegister.WebAPI
 {
@@ -27,6 +28,7 @@ namespace SchoolRegister.WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddDbContext<DatabaseContext>(options =>
@@ -37,6 +39,17 @@ namespace SchoolRegister.WebAPI
             services.AddScoped<IStudentService, StudentService>();
 
             services.AddControllers();
+
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1",
+                    new OpenApiInfo()
+                    {
+                        Title = "SchoolApi",
+                        Description = "School student attendance",
+                        Version = "version 1"                 
+                    }); 
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +67,14 @@ namespace SchoolRegister.WebAPI
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger(s => {
+                s.RouteTemplate = "{documentName}/swagger.json";
+            });
+            app.UseSwaggerUI(s => {
+                s.RoutePrefix = "";
+                s.SwaggerEndpoint("/v1/swagger.json", "");
             });
         }
     }
