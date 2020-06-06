@@ -9,17 +9,17 @@ namespace SchoolRegister.Domain.IService
 {
    public  interface IStudentService
     {
-		IEnumerable<StudentViewModel> GetAllStudentByLevel(string levelid);
-		IEnumerable<StudentViewModel> GetStudents();
+		//IEnumerable<StudentViewModel> GetAllStudentByLevel(string levelid);
+		Task<IEnumerable<StudentViewModel>> GetStudents();
 		StudentViewModel GetStudent(int studentId);
-		Task<bool> AddStudent(StudenCreationViewModel student);
-		Task<Student> UpdateStudent(StudenCreationViewModel student, int id);
+		Task<bool> AddStudent(StudentCreationViewModel student);
+		Task<bool> UpdateStudent(StudentCreationViewModel student, int id);
 
 		Task<bool> DeleteStudent(int student);
 		void MarkAttendance(Register register);
 		void UpdateRegister(Register register);
 		void DeleteRegister(Register register);
-		int AgeAverage();
+		double AgeAverage();
 
 	}
 }

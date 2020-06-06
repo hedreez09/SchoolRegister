@@ -25,12 +25,12 @@ namespace SchoolRegister.API.Controllers
 		[HttpGet]
 		public ActionResult<IEnumerable<StudentViewModel>> GetAll()
 		{
-			var stds = context.GetStudents();
-			if (stds.Count() < 1)
+			var stds = context.GetStudents().GetAwaiter().GetResult();
+			if (stds.Count() < 0 )
 			{
 				return NotFound("No Student found");
 			}
-			return Ok(context.GetStudents());
+			return Ok(stds);
 		}
 
 		//// GET: api/<controller>
@@ -53,7 +53,7 @@ namespace SchoolRegister.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> PostAsync([FromBody]StudenCreationViewModel student)
+		public async Task<ActionResult> PostAsync([FromBody]StudentCreationViewModel student)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -73,7 +73,7 @@ namespace SchoolRegister.API.Controllers
 		}
 
 		[HttpPut("{id}")]
-		public async Task<ActionResult> PutAsync(int id, [FromBody]StudenCreationViewModel student)
+		public async Task<ActionResult> PutAsync(int id, [FromBody]StudentCreationViewModel student)
 		{
 			if (!ModelState.IsValid)
 			{

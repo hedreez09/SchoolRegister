@@ -11,9 +11,9 @@ namespace SchoolRegister.DAL.Repository
 {
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly DatabaseContext _context;
+        private readonly DbContext _context;
         private DbSet<TEntity> dbSet;
-        public Repository(DatabaseContext context)
+        public Repository(DbContext context)
         {
             _context = context;//?? throw new ArgumentNullException(nameof(context));
             dbSet = _context.Set<TEntity>();
@@ -48,6 +48,8 @@ namespace SchoolRegister.DAL.Repository
         {
             return dbSet.Where(expression).ToListAsync();
         }
+
+        
 
         public TEntity GetFirstOrDefault(Func<TEntity, bool> filter)
         {

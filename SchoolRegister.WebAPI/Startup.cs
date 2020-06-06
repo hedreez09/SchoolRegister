@@ -35,7 +35,8 @@ namespace SchoolRegister.WebAPI
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
             
 
-            services.AddScoped <IRepository<Student>, Repository<Student>>();
+            services.AddScoped <DbContext, DatabaseContext>();
+            services.AddScoped<IStudentRepo, StudentRepo>();
             services.AddScoped<IStudentService, StudentService>();
 
             services.AddControllers();

@@ -23,7 +23,7 @@ namespace SchoolRegister.Domain.Profiles
 				dest => dest.Age,
 				opt => opt.MapFrom(src => src.DateOfBirth.GetCurrentAge()));
 
-			CreateMap<StudenCreationViewModel, Student>();
+			CreateMap<StudentCreationViewModel, Student>();
 
 		}
 	}

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace SchoolRegister.Domain.Helpers
 {
@@ -19,5 +20,22 @@ namespace SchoolRegister.Domain.Helpers
 
 			return age;
 		}
+		public static double GetAverageAge(this List<DateTimeOffset> date)
+        {
+			double avg;
+			int totalage = 0;
+			var myTask = Task.Run(() =>
+			{
+				foreach (var d in date)
+				{
+					totalage += d.GetCurrentAge();
+				}
+			});
+
+			Task.WaitAll(myTask);
+			avg = totalage / date.Count;
+
+			return avg;
+        } 
 	}
 }
