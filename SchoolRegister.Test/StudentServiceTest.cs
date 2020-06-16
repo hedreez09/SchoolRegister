@@ -27,23 +27,6 @@ namespace SchoolRegister.Test
 			_sysUnderTest = new StudentService(_studentRepositoryMock.Object, _mapperMock.Object);
 
 		}
-		public  Student GetStud()
-        {
-			var studentName = "idris";
-			var studentName2 = "Wonuola";
-			var student = new Student
-			{
-				Id = 1,
-				FirstName = studentName,
-				LastName = studentName2,
-				Gender = "Male",
-				Sport = "Tennis",
-				Level = "Basic4",
-				DateOfBirth = DateTimeOffset.Parse("2010-03-04")
-			};
-			return student;
-		}
-		
 
 		public IEnumerable<StudentViewModel> GetAll()
         {
@@ -89,7 +72,7 @@ namespace SchoolRegister.Test
 		public void GetStudentById_ShouldReturnStudent_whenExist()
 		{
 			// Arrange
-			//var stud = new Student();
+			var stud = new Student();
 			var studentName = "idris";
 			var studentName2 = 	"Wonuola";
 			var student = new Student
@@ -177,16 +160,6 @@ namespace SchoolRegister.Test
 				DateOfBirth =DateTimeOffset.Parse("2010-03-04")
 			};
 
-			//var newStudent2 = new Student()
-			//{
-				
-			//	FirstName = "Idris", 
-			//	LastName = "Nwankwo",
-			//	Gender = "male",
-			//	Sport = "Football",
-			//	Level = "basic5",
-			//	DateOfBirth = DateTimeOffset.Parse("2012-03-04")
-			//};
 			_studentRepositoryMock.Setup(s => s.AddStudent(newStudent)).ReturnsAsync(true);
 
 			var expectedStud = await _studentRepositoryMock.Object.AddStudent(newStudent);
@@ -253,7 +226,50 @@ namespace SchoolRegister.Test
 			Assert.That(expectedAge, Is.EqualTo(10));
 		}
 
-		
+
+		[Test]
+		public async Task DeleteStudentIfExist()
+        {
+			var student = new Student()
+			{
+				Id = 1
+			};
+
+			_studentRepositoryMock.Setup(s => s.DeleteStudent(student.Id)).ReturnsAsync(true);
+
+			var studToBeDeleted = await _studentRepositoryMock.Object.DeleteStudent(student.Id);
+
+			Assert.IsTrue(studToBeDeleted);
+		}
+
+		[Test]
+		public async Task UpdateAlreadyExistingStudent()
+		{
+			var student = new Student()
+			{
+				Id = 1,
+			};
+
+			//var existingStd = _studentRepositoryMock.Setup(up => up.GetById(student.Id));
+			//var existingStd = _studentRepositoryMock.Object.GetById(student.Id);
+
+			var studToBeUpdated = _studentRepositoryMock.Setup(p => p.UpdateStudent(student, 1)).ReturnsAsync(true);
+
+			var stud = new Student()
+			{
+				FirstName = student.FirstName,
+				LastName = student.LastName,
+				Gender = student.Gender,
+				Level = student.Level,
+				DateOfBirth = student.DateOfBirth,
+				Sport = student.Sport
+			};
+
+			var updateStd = await _studentRepositoryMock.Object.UpdateStudent(stud, 1);
+
+			//Assert.IsNotNull(existingStd);
+			Assert.IsTrue(updateStd);
+		}
 	}
 
 	
