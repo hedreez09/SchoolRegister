@@ -13,7 +13,7 @@ namespace SchoolRegister.DAL.Repository
     public class StudentRepo : ManagerBase<Student>,IStudentRepo
     {
         
-        public StudentRepo(DbContext context):base(context)
+        public StudentRepo(DatabaseContext context):base(context)
         {
            
         }

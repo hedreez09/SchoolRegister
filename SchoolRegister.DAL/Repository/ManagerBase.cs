@@ -8,7 +8,7 @@ namespace SchoolRegister.DAL.Repository
 {
     public class ManagerBase<TEntity> : Repository<TEntity> where TEntity:class
     {
-        public ManagerBase(DbContext dbContext):base(dbContext)
+        public ManagerBase(DatabaseContext dbContext):base(dbContext)
         {
             
         }

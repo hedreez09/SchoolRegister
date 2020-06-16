@@ -9,11 +9,12 @@ using System.Threading.Tasks;
 
 namespace SchoolRegister.DAL.Repository
 {
+    //Root repository
     public class Repository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        private readonly DbContext _context;
+        private readonly DatabaseContext _context;
         private DbSet<TEntity> dbSet;
-        public Repository(DbContext context)
+        public Repository(DatabaseContext context)
         {
             _context = context;//?? throw new ArgumentNullException(nameof(context));
             dbSet = _context.Set<TEntity>();
