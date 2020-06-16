@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SchoolRegister.Domain.Interface;
 using SchoolRegister.Domain.IService;
 using SchoolRegister.Domain.ViewModel;
 
 namespace SchoolRegister.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/averageAge")]
     public class AverageAgeController : ControllerBase
     {
         private readonly IStudentService context;
@@ -15,6 +14,8 @@ namespace SchoolRegister.API.Controllers
         {
             context = _context;
         }
+
+        [HttpGet]
         public ActionResult<AvergareAgeViewModel> Get()
         {
             var age = context.AgeAverage();

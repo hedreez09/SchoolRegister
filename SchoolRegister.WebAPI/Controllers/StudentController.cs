@@ -3,16 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using SchoolRegister.Domain.Interface;
 using SchoolRegister.Domain.ViewModel;
-using SchoolRegister.Domain.Helpers;
 using SchoolRegister.Domain.IService;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SchoolRegister.API.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/students")]
 	[ApiController]
 	public class StudentController : ControllerBase
 	{
@@ -23,18 +21,16 @@ namespace SchoolRegister.API.Controllers
 			context = _context;
 		}
 
-	
-
 		// GET: api/<controller>
 		[HttpGet]
-		public ActionResult<IEnumerable<StudentViewModel>> Get()
+		public ActionResult<IEnumerable<StudentViewModel>> GetAll()
 		{
-			var stds = context.GetStudents();
-			if (stds.Count() < 1)
+			var stds = context.GetStudents().GetAwaiter().GetResult();
+			if (stds.Count() < 0 )
 			{
 				return NotFound("No Student found");
 			}
-			return Ok(context.GetStudents());
+			return Ok(stds);
 		}
 
 		//// GET: api/<controller>
@@ -46,7 +42,7 @@ namespace SchoolRegister.API.Controllers
 		//}
 		// GET api/<controller>/5
 		[HttpGet("{id}")]
-		public ActionResult<StudentViewModel> Get(int id)
+		public ActionResult<StudentViewModel> GetById(int id)
 		{
 			var std = context.GetStudent(id);
 			if (std == null)
@@ -57,7 +53,7 @@ namespace SchoolRegister.API.Controllers
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> PostAsync([FromBody]StudenCreationViewModel student)
+		public async Task<ActionResult> PostAsync([FromBody]StudentCreationViewModel student)
 		{
 			if (!ModelState.IsValid)
 			{
@@ -75,36 +71,34 @@ namespace SchoolRegister.API.Controllers
 			else
 				return BadRequest("Something went wrong, data not saved");
 		}
-		[HttpPut]
-		public async Task<ActionResult> PutAsync([FromBody]StudenCreationViewModel student)
+
+		[HttpPut("{id}")]
+		public async Task<ActionResult> PutAsync(int id, [FromBody]StudentCreationViewModel student)
 		{
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
 			}
-			if (student.Id < 1)
-			{
-				return BadRequest("Invalid Student ID");
-			}
-			bool pupil = await context.UpdateStudent(student);
-			if (pupil)
-				return Ok("Student data updated successfully");
-			else
-				return BadRequest("Something went wrong, data not updated, maybe student not found");
+
+			if (student == null)
+				return BadRequest(" Student doest not exist");
+
+			//student.Id = id;
+
+			var pupil = await context.UpdateStudent(student,id);
+			return Ok(pupil);
+			
 		}
 
-		[HttpDelete]
-		public async Task<ActionResult> DeleteAsync([FromBody]StudentViewModel student)
+		[HttpDelete("{id}")]
+		public async Task<ActionResult> DeleteAsync(int id)
 		{
-			if (!ModelState.IsValid)
-			{
-				return BadRequest(ModelState);
-			}
-			if (student.Id < 1)
+			if (id < 1)
 			{
 				return BadRequest("Invalid Student ID");
 			}
-			bool pupil = await context.DeleteStudent(student.Id);
+			
+			bool pupil = await context.DeleteStudent(id);
 			if (pupil)
 				return Ok("Student data deleted successfully");
 			else
