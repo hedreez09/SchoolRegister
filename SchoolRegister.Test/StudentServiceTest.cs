@@ -248,29 +248,29 @@ namespace SchoolRegister.Test
 			var student = new Student()
 			{
 				Id = 1,
+				FirstName = "AdeTola",
+				LastName = "AdeTola",
+				Sport = "Tennis",
+				Gender = "Male",
+				DateOfBirth = DateTimeOffset.Parse("2010-03-04"),
+				Level = "Basic4"
 			};
 
-			//var existingStd = _studentRepositoryMock.Setup(up => up.GetById(student.Id));
-			//var existingStd = _studentRepositoryMock.Object.GetById(student.Id);
+			_studentRepositoryMock.Setup(repo => repo.UpdateStudent(It.IsAny<Student>(),1)).Verifiable();
 
-			var studToBeUpdated = _studentRepositoryMock.Setup(p => p.UpdateStudent(student, 1)).ReturnsAsync(true);
-
-			var stud = new Student()
+			var stud = new StudentCreationViewModel()
 			{
-				FirstName = student.FirstName,
-				LastName = student.LastName,
-				Gender = student.Gender,
-				Level = student.Level,
-				DateOfBirth = student.DateOfBirth,
-				Sport = student.Sport
+				FirstName = "AdeTola",
+				LastName = "AdeTola",
+				Sport = "Football",
+				Gender = "Male",
+				DateOfBirth = DateTimeOffset.Parse("2013-03-04"),
+				Level = "Basic4"
 			};
 
-			var updateStd = await _studentRepositoryMock.Object.UpdateStudent(stud, 1);
+			var updateStd = await _sysUnderTest.UpdateStudent(stud, 1);
 
-			//Assert.IsNotNull(existingStd);
-			Assert.IsTrue(updateStd);
+			_studentRepositoryMock.Verify(repo => repo.UpdateStudent(It.IsAny<Student>(), 1), Times.Once);	
 		}
-	}
-
-	
+	}	
 }
