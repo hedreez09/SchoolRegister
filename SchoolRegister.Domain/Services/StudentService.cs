@@ -57,6 +57,7 @@ namespace SchoolRegister.Domain
 		public async Task<bool> UpdateStudent(StudentCreationViewModel student, int id)
         {
 			var std = StudentCreationViewModel.ToStudent(student);
+			std.Id = 1;
 			//var std = _mapper.Map<StudentCreationViewModel, Student>(student);
 			bool result = await _studentRepository.UpdateStudent(std, id);
 			return result;
